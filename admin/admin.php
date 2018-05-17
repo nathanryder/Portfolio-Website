@@ -397,10 +397,14 @@ ESC listener
                     $id = $row['ID'];
                     $admin = $_SESSION['admin'] === "1" ? "Yes" : "No";
 
+                    $cat = $row['Category'];
+                    $query = mysqli_query($con, "SELECT Name FROM categories WHERE ID=" . $cat);
+                    $catName = mysqli_fetch_assoc($query)["Name"];
+
                     echo "<tr>";
                     echo "<td>" . $row['Name'] . "</td>";
                     echo "<td>" . $row['Description'] . "</td>";
-                    echo "<td>" . $row['Category'] . "</td>";
+                    echo "<td>" . $catName . "</td>";
                     echo "<td>" . $row['Year'] . "</td>";
                     echo "<td>
                             <span class='delete'>
