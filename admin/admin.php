@@ -1,8 +1,6 @@
 <!--
 TODO
 
-Add project category should be dropdown
-
 Highlights of portfolio section (on front page aswell)
 Put download to code on private projects
 Github -[Real name] All personal projects
@@ -350,16 +348,6 @@ ESC listener
 
           <!--
             PROJECTS
-
-            Name
-            Year
-            .zip download
-            Repo link
-            category
-            Thumbnail image
-            Header image
-            Short description
-            Description
           -->
           <div class="tab-pane fade" id="projects">
             <br><br>
@@ -381,7 +369,7 @@ ESC listener
               <tbody>
 
                 <?php
-                  $data = mysqli_query($con, "SELECT * FROM users");
+                  $data = mysqli_query($con, "SELECT * FROM projects");
                   while ($row = mysqli_fetch_assoc($data)) {
                     $id = $row['ID'];
                     $admin = $row['Admin'] === "1" ? "Yes" : "No";
@@ -391,10 +379,12 @@ ESC listener
                     echo "<td>" . $row['Description'] . "</td>";
                     echo "<td>" . $row['Category'] . "</td>";
                     echo "<td>" . $row['Year'] . "</td>";
-                    echo "<td class='delete'>
-                            <a href='javascript:void(0)' onclick='deleteProject(" . $id . ")'>
-                              <img width='18px' src='../files/images/delete.png'>
-                            </a>
+                    echo "<td>
+                            <span class='delete'>
+                              <a href='javascript:void(0)' onclick='deleteProject(" . $id . ")'>
+                                <img width='18px' src='../files/images/delete.png'>
+                              </a>
+                            </span>
                           </td>";
                     echo "</tr>";
                   }
