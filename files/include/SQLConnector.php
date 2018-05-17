@@ -18,6 +18,17 @@ function deleteCategory($con, $id) {
   return true;
 }
 
+function createNewProject($con, $name, $desc, $year, $cat, $repo, $content, $file, $thumb, $head, $uid) {
+  $query = mysqli_query($con, "INSERT INTO projects (Name,Description,Year,Category,Repository,Folder,File,Thumbnail,Header)
+            VALUES ('$name', '$desc', $year, '$cat', '$repo', '$uid', '$file', '$thumb', '$head')");
+
+  if ($query === NULL)
+    return false;
+
+  return true;
+}
+
+
 function deleteUser($con, $id) {
   $query = mysqli_query($con, "DELETE FROM users WHERE ID=" . $id);
 

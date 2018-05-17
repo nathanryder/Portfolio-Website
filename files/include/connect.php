@@ -52,6 +52,7 @@ if (mysqli_num_rows($tableExists) < 1) {
     Year INT(10) NOT NULL,
     Category VARCHAR(128) NOT NULL,
     Repository VARCHAR(128),
+    Folder VARCHAR(128) NOT NULL,
     File VARCHAR(128) NOT NULL,
     Thumbnail VARCHAR(128) NOT NULL,
     Header VARCHAR(128) NOT NULL

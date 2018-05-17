@@ -43,7 +43,7 @@ include 'connect.php';
       </li>
 
       <?php
-        if ($_SESSION['admin']) {
+        if (isset($_SESSION['admin'])) {
           echo '  <li class="nav-item">
               <a class="nav-link" href="logout.php">Logout</a>
             </li>';

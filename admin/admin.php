@@ -1,6 +1,8 @@
 <!--
 TODO
 
+Add project category should be dropdown
+
 Highlights of portfolio section (on front page aswell)
 Put download to code on private projects
 Github -[Real name] All personal projects
@@ -56,6 +58,59 @@ ESC listener
             <br>
 
             <?php
+            function uploadFile($file, $uid) {
+              //Create file
+              if (!file_exists("../uploads/" . $uid . "/")) {
+                  mkdir("../uploads/" . $uid . "/", 0755, true);
+              }
+
+              $target = "../uploads/" . $uid . "/" . basename($_FILES[$file]["name"]);
+              $type = strtolower(pathinfo($target, PATHINFO_EXTENSION));
+
+              if ($file === "thumbnail" || $file === "header") {
+                if($type != "jpg" && $type != "png" && $type != "jpeg"
+                    && $type != "gif")
+                  return false;
+
+                  if (!move_uploaded_file($_FILES[$file]["tmp_name"], $target))
+                    return false;
+              } else {
+                if($type != "zip" && $type != "jar")
+                  return false;
+
+                if (!move_uploaded_file($_FILES[$file]["tmp_name"], $target))
+                  return false;
+              }
+
+              return $_FILES[$file]["name"];
+            }
+
+            function generateRandomString($length = 6) {
+              $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+              $charactersLength = strlen($characters);
+              $randomString = '';
+              for ($i = 0; $i < $length; $i++) {
+                  $randomString .= $characters[rand(0, $charactersLength - 1)];
+              }
+              return $randomString;
+            }
+
+            function rrmdir($dir) {
+              if (is_dir($dir)) {
+                $objects = scandir($dir);
+                foreach ($objects as $object) {
+                  if ($object != "." && $object != "..") {
+                    if (is_dir($dir."/".$object))
+                      rrmdir($dir."/".$object);
+                   else
+                    unlink($dir."/".$object);
+                  }
+                }
+                rmdir($dir);
+              }
+            }
+
+
             if ($_POST !== NULL) {
               if ($admin == 0) {
                 echo '<div style="width: 60%" class="alert alert-dismissible alert-warning">
@@ -89,12 +144,12 @@ ESC listener
                   if (deleteCategory($con, $id)) {
                     echo '<div style="width: 60%" class="alert alert-dismissible alert-success">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>Successfully deleted user!</strong>
+                            <strong>Successfully deleted category!</strong>
                           </div>';
                   } else {
                     echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>Failed to delete user!</strong>
+                            <strong>Failed to delete category!</strong>
                           </div>';
                   }
                 } else if (isset($_POST['addUser'])) {
@@ -162,6 +217,71 @@ ESC listener
                               <button type="button" class="close" data-dismiss="alert">&times;</button>
                               <strong>Failed to change password</strong>
                             </div>';
+                    }
+                  }
+                } else if (isset($_POST['addProject'])) {
+                  $name = $_POST['name'];
+                  $desc = $_POST['desc'];
+                  $year = $_POST['year'];
+                  $cat = $_POST['category'];
+                  $repo = $_POST['repo']; //optional
+                  $file = $_FILES['file']['name']; //optional
+                  $thumbnail = $_FILES['thumbnail']['name'];
+                  $banner = $_FILES['header']['name'];
+                  $content = $_POST['content'];
+                  $error = false;
+
+                  if (strlen($name) < 1)
+                    $error = true;
+                  else if (strlen($desc) < 1)
+                    $error = true;
+                  else if (strlen($year) < 1)
+                    $error = true;
+                  else if (strlen($cat) < 1)
+                    $error = true;
+                  else if ((strlen($repo) < 1) && (strlen($file) < 1))
+                    $error = true;
+                  else if (strlen($thumbnail) < 1)
+                    $error = true;
+                  else if (strlen($banner) < 1)
+                    $error = true;
+                  else if (strlen($content) < 1)
+                    $error = true;
+
+                  if ($error) {
+                    echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Failed to create new project. Are all required fields filled out?</strong>
+                          </div>';
+                  } else {
+                    $uid = generateRandomString();
+                    $fileError = uploadFile("file", $uid);
+                    var_dump($fileError);
+                    $thumbError = uploadFile("thumbnail", $uid);
+                    $headError = uploadFile("header", $uid);
+
+                    if (strlen($fileError) < 1 || strlen($thumbError) < 1 || strlen($headError) < 1) {
+                      echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
+                              <button type="button" class="close" data-dismiss="alert">&times;</button>
+                              <strong>Failed to add project. Failed to upload files.</strong>
+                            </div>';
+                            rrmdir("../uploads/" . $uid);
+                    } else {
+                      $f = fopen("../uploads/" . $uid . "/content.html", "w");
+                      fwrite($f, $content);
+                      fclose($f);
+
+                      if (createNewProject($con, $name, $desc, $year, $cat, $repo, $content, $fileError, $thumbError, $headError, $uid)) {
+                        echo '<div style="width: 60%" class="alert alert-dismissible alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Successfully created new project called ' . $name . '</strong>
+                              </div>';
+                      } else {
+                        echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Failed to create new project. Please report this to an adminstrator</strong>
+                              </div>';
+                      }
                     }
                   }
                 }
@@ -289,7 +409,7 @@ ESC listener
               </div>
               <br><br>
 
-              <form action="admin.php" method="POST">
+              <form action="admin.php" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                   <input style="width:60%;" type="text" name="name" class="form-control" placeholder="Project Name">
                   <br>
@@ -307,10 +427,10 @@ ESC listener
                   <br>
                   Header: <input style="width:60%;" type="file" name="header" class="form-control">
                   <br>
-                  <textarea style="width:60%;" class="form-control" name="content" rows="8" cols="80" placeholder="test"></textarea>
+                  <textarea style="width:60%;" class="form-control" name="content" rows="8" cols="80" placeholder="Project description"></textarea>
 
                   <br>
-                  <input type="submit" name="addUser" value="Submit">
+                  <input type="submit" name="addProject" value="Submit">
                 </div>
               </form>
             </div>

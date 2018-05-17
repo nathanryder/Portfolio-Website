@@ -66,7 +66,7 @@ function deleteCategory(id) {
     confirmButtonText: 'Yes, delete it!'
   }).then((result) => {
     if (result.value) {
-      sendPost("../files/include/AdminManager.php", {deleteCategory: "true", ID: id})
+      sendPost("../admin/admin.php", {deleteCategory: "true", ID: id})
     }
   })
 }
