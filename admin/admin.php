@@ -23,6 +23,16 @@ ESC listener
     <link rel="stylesheet" href="../files/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../files/css/admin.css">
     <script src="https://unpkg.com/sweetalert2@7.16.0/dist/sweetalert2.all.js"></script>
+    <script src="../files/bootstrap/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+      if(window.location.hash != "") {
+          $('a[href="' + window.location.hash + '"]').click()
+      }
+      });
+    </script>
+
   </head>
   <body onkeydown="escListener(event);" style="background-color: #333">
     <?php
@@ -52,7 +62,7 @@ ESC listener
         </ul>
 
         <div id="admin-options" class="tab-content">
-          <div class="tab-pane fade active show" id="home">
+          <div role="tabpanel" class="tab-pane fade active show" id="home">
             <br>
 
             <?php
@@ -148,6 +158,19 @@ ESC listener
                     echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <strong>Failed to delete category!</strong>
+                          </div>';
+                  }
+                } else if (isset($_POST['deleteProject'])) {
+                  $id = $_POST['ID'];
+                  if (deleteProject($con, $id)) {
+                    echo '<div style="width: 60%" class="alert alert-dismissible alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Successfully deleted project!</strong>
+                          </div>';
+                  } else {
+                    echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Failed to delete project!</strong>
                           </div>';
                   }
                 } else if (isset($_POST['addUser'])) {
@@ -349,7 +372,7 @@ ESC listener
           <!--
             PROJECTS
           -->
-          <div class="tab-pane fade" id="projects">
+          <div role="tabpanel" class="tab-pane fade" id="projects">
             <br><br>
             <table class="table table-striped table-hover">
               <thead>
@@ -433,7 +456,7 @@ ESC listener
             </div>
           </div>
 
-          <div class="tab-pane fade" id="accounts">
+          <div role="tabpanel" class="tab-pane fade" id="accounts">
             <!--
               ACCOUNTS
             -->
