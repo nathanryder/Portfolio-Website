@@ -417,7 +417,14 @@ ESC listener
                   <br>
                   <input style="width:60%;" type="number" name="year" class="form-control" value="<?php echo date('Y'); ?>">
                   <br>
-                  <input style="width:60%;" type="text" name="category" class="form-control" placeholder="Category">
+                  <select style="width:60%;" name="category" class="form-control">
+                    <?php
+                      $query = mysqli_query($con, "SELECT ID,Name FROM categories");
+                      while ($row = mysqli_fetch_assoc($query)) {
+                        echo '<option value="' . $row["ID"] . '">' . $row['Name'] . '</option>';
+                      }
+                    ?>
+                  </select>
                   <br>
                   <input style="width:60%;" type="text" name="repo" class="form-control" placeholder="Link to repository">
                   <br>
