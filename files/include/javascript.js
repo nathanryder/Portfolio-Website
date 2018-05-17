@@ -6,7 +6,6 @@ function showPopup(type) {
     document.getElementById('addUser-popup').style.visibility='visible';
     document.getElementById('addUser-popup').style.animation='fadeIn 1s';
   } else if (type == "addProject") {
-    console.log("Ran");
     document.getElementById('addProject-popup').style.visibility='visible';
     document.getElementById('addProject-popup').style.animation='fadeIn 1s';
   }
@@ -50,7 +49,7 @@ function deleteUser(id) {
     confirmButtonText: 'Yes, delete it!'
   }).then((result) => {
     if (result.value) {
-      sendPost("../files/include/AdminManager.php", {deleteUser: "true", ID: id})
+      sendPost("../admin/admin.php", {deleteUser: "true", ID: id})
     }
   })
 }

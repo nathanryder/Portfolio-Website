@@ -372,7 +372,7 @@ ESC listener
                   $data = mysqli_query($con, "SELECT * FROM projects");
                   while ($row = mysqli_fetch_assoc($data)) {
                     $id = $row['ID'];
-                    $admin = $row['Admin'] === "1" ? "Yes" : "No";
+                    $admin = $_SESSION['admin'] === "1" ? "Yes" : "No";
 
                     echo "<tr>";
                     echo "<td>" . $row['Name'] . "</td>";
