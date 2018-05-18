@@ -12,6 +12,16 @@ include 'connect.php';
   }
 </style>
 
+<script type="text/javascript">
+  function smoothScrollTo() {
+    var url = window.location.href;
+    if (url.includes("admin"))
+      window.location = "../index.php#about";
+    else
+      window.location = "index.php#about";
+  }
+</script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#">Nathan Ryder</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +43,7 @@ include 'connect.php';
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="index.php#about">About</a>
+        <a class="nav-link" href="javascript:void(0)" onclick="smoothScrollTo('about')">About</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="index.php#contact">Contact</a>

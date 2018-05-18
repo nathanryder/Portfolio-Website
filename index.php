@@ -50,6 +50,17 @@
       <h1 class="text">Contact</h1>
     </div>
 
+    <script type="text/javascript">
+      function smoothScrollTo(id) {
+        var e = document.getElementById(id);
+        e.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+
+      // smoothScrollTo("contact");
+    </script>
+    <a href="javascript:void()" onclick="smoothScrollTo('about')"> <h1>CLICK</h1> </a>
 
     <script src="files/bootstrap/jquery.min.js"></script>
     <script src="files/bootstrap/popper.min.js"></script>
