@@ -8,7 +8,6 @@ Resume
 
 Make #about, #contact smoother scroll?
 Footer
-Make headings on main page better
 
 ESC listener
 

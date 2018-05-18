@@ -1,6 +1,7 @@
 .text {
   text-align: center;
   color: black;
+  font-family: 'Helvetica Neue', sans-serif;
 }
 
 .bg-panel {

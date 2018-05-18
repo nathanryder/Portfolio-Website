@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="files/css/master.css">
     <link rel="stylesheet" href="files/bootstrap/bootstrap.min.css" >
   </head>
+
   <body>
     <?php include 'files/include/navbar.php'; ?>
 
