@@ -72,7 +72,47 @@
         </div>
       </div>
     <?php
-    }
+  } else {
+    ?>
+
+    <div class="container bg-panel">
+      <div class="row">
+        <?php
+          $catQuery = mysqli_query($con, "SELECT ID FROM categories WHERE Name='" . $_GET['category'] . "'");
+          $id = mysqli_fetch_assoc($catQuery)["ID"];
+          $query = mysqli_query($con, "SELECT ID, Name, Folder, Thumbnail FROM projects WHERE Category=" . $id);
+
+          $i = 0;
+          while ($row = mysqli_fetch_assoc($query)) {
+            if ($i == 0) {
+              echo '<div class="row">';
+            }
+
+            $path = "uploads/" . $row['Folder'] . "/" . $row['Thumbnail'];
+
+            echo '
+            <div class="col-lg-4">
+              <a href="project.php?project=' . $row["ID"] . '">
+                <div data-content="' . $row["Name"] . '" class="portfolio-block">
+                    <img src="' . $path . '" />
+                </div>
+              </a>
+            </div>';
+
+            if ($i == 2) {
+              echo '</div>';
+              $i = 0;
+            } else {
+              $i++;
+            }
+          }
+         ?>
+
+      </div>
+    </div>
+
+    <?php
+  }
     ?>
 
     <script src="files/bootstrap/jquery.min.js"></script>
