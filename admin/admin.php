@@ -2,8 +2,6 @@
 TODO
 
 Highlights of portfolio section (on front page aswell)
-Put download to code on private projects
-Github -[Real name] All personal projects
 Resume
 
 Make #about, #contact smoother scroll?

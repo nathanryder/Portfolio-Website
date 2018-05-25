@@ -58,9 +58,7 @@
         });
       }
 
-      // smoothScrollTo("contact");
     </script>
-    <a href="javascript:void()" onclick="smoothScrollTo('about')"> <h1>CLICK</h1> </a>
 
     <script src="files/bootstrap/jquery.min.js"></script>
     <script src="files/bootstrap/popper.min.js"></script>

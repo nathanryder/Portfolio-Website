@@ -13,12 +13,12 @@ include 'connect.php';
 </style>
 
 <script type="text/javascript">
-  function smoothScrollTo() {
+  function smoothScrollTo(id) {
     var url = window.location.href;
     if (url.includes("admin"))
-      window.location = "../index.php#about";
+      window.location = "../index.php#" + id;
     else
-      window.location = "index.php#about";
+      window.location = "index.php#" + id;
   }
 </script>
 
@@ -46,7 +46,7 @@ include 'connect.php';
         <a class="nav-link" href="javascript:void(0)" onclick="smoothScrollTo('about')">About</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="index.php#contact">Contact</a>
+        <a class="nav-link" href="javascript:void(0)" onclick="smoothScrollTo('contact')">Contact</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="admin/">Admin</a>
