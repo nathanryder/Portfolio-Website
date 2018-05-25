@@ -4,6 +4,12 @@
 	font-family: "Helvetica Neue", sans-serif;
 }
 
+.projectContent {
+	text-align: justify !important;
+	padding-right: 60px;
+	font-size: 19px;
+}
+
 .bg-panel {
 	width: 80%;
 	padding: 3%;
