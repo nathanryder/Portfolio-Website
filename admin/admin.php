@@ -1,13 +1,12 @@
 <!--
 TODO
 
-Highlights of portfolio section (on front page aswell)
 Resume
 
-Make #about, #contact smoother scroll?
-Footer
-
+Edit project
+Highlights of portfolio section (on front page aswell)
 ESC listener
+Footer
 
 -->
 
@@ -249,6 +248,7 @@ ESC listener
                   $content = $_POST['content'];
                   $error = false;
 
+var_dump((strlen($repo) < 1) && (strlen($file) < 1));
                   if (strlen($name) < 1)
                     $error = true;
                   else if (strlen($desc) < 1)
@@ -273,32 +273,62 @@ ESC listener
                           </div>';
                   } else {
                     $uid = generateRandomString();
-                    $fileError = uploadFile("file", $uid);
-                    var_dump($fileError);
+                    if (!file_exists("../uploads/" . $uid . "/")) {
+                        mkdir("../uploads/" . $uid . "/", 0755, true);
+                    }
+
                     $thumbError = uploadFile("thumbnail", $uid);
                     $headError = uploadFile("header", $uid);
 
-                    if (strlen($fileError) < 1 || strlen($thumbError) < 1 || strlen($headError) < 1) {
-                      echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
-                              <button type="button" class="close" data-dismiss="alert">&times;</button>
-                              <strong>Failed to add project. Failed to upload files.</strong>
-                            </div>';
-                            rrmdir("../uploads/" . $uid);
-                    } else {
-                      $f = fopen("../uploads/" . $uid . "/content.html", "w");
-                      fwrite($f, $content);
-                      fclose($f);
+                    if (strlen($file) > 0) {
+                      $fileError = uploadFile("file", $uid);
 
-                      if (createNewProject($con, $name, $desc, $year, $cat, $repo, $content, $fileError, $thumbError, $headError, $uid)) {
-                        echo '<div style="width: 60%" class="alert alert-dismissible alert-success">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong>Successfully created new project called ' . $name . '</strong>
-                              </div>';
-                      } else {
+                      if (strlen($fileError) < 1 || strlen($thumbError) < 1 || strlen($headError) < 1) {
                         echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong>Failed to create new project. Please report this to an adminstrator</strong>
+                                <strong>Failed to add project. Failed to upload files.</strong>
                               </div>';
+                              rrmdir("../uploads/" . $uid);
+                      } else {
+                        $f = fopen("../uploads/" . $uid . "/content.html", "w");
+                        fwrite($f, $content);
+                        fclose($f);
+
+                        if (createNewProject($con, $name, $desc, $year, $cat, $repo, $content, $fileError, $thumbError, $headError, $uid)) {
+                          echo '<div style="width: 60%" class="alert alert-dismissible alert-success">
+                                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                  <strong>Successfully created new project called ' . $name . '</strong>
+                                </div>';
+                        } else {
+                          echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
+                                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                  <strong>Failed to create new project. Please report this to an adminstrator</strong>
+                                </div>';
+                        }
+                      }
+                    } else {
+                      if (strlen($thumbError) < 1 || strlen($headError) < 1) {
+                        echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Failed to add project. Failed to upload files.</strong>
+                              </div>';
+                              rrmdir("../uploads/" . $uid);
+                      } else {
+                        $f = fopen("../uploads/" . $uid . "/content.html", "w");
+                        fwrite($f, $content);
+                        fclose($f);
+
+                        if (createNewProject($con, $name, $desc, $year, $cat, $repo, $content, NULL, $thumbError, $headError, $uid)) {
+                          echo '<div style="width: 60%" class="alert alert-dismissible alert-success">
+                                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                  <strong>Successfully created new project called ' . $name . '</strong>
+                                </div>';
+                        } else {
+                          echo '<div style="width: 60%" class="alert alert-dismissible alert-danger">
+                                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                  <strong>Failed to create new project. Please report this to an adminstrator</strong>
+                                </div>';
+                        }
                       }
                     }
                   }
