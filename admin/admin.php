@@ -158,7 +158,11 @@ Footer
                   }
                 } else if (isset($_POST['deleteProject'])) {
                   $id = $_POST['ID'];
+                  $folder = $_POST['Folder'];
+
                   if (deleteProject($con, $id)) {
+                    rrmdir("../uploads/" . $folder);
+
                     echo '<div style="width: 60%" class="alert alert-dismissible alert-success">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <strong>Successfully deleted project!</strong>
@@ -422,6 +426,7 @@ var_dump((strlen($repo) < 1) && (strlen($file) < 1));
                   $data = mysqli_query($con, "SELECT * FROM projects");
                   while ($row = mysqli_fetch_assoc($data)) {
                     $id = $row['ID'];
+                    $uid = $row['Folder'];
                     $admin = $_SESSION['admin'] === "1" ? "Yes" : "No";
 
                     $cat = $row['Category'];
@@ -435,7 +440,7 @@ var_dump((strlen($repo) < 1) && (strlen($file) < 1));
                     echo "<td>" . $row['Year'] . "</td>";
                     echo "<td>
                             <span class='delete'>
-                              <a href='javascript:void(0)' onclick='deleteProject(" . $id . ")'>
+                              <a href='javascript:void(0)' onclick='deleteProject(" . $id . ", \"" . $uid . "\")'>
                                 <img width='18px' src='../files/images/delete.png'>
                               </a>
                             </span>
