@@ -63,4 +63,21 @@ if (mysqli_num_rows($tableExists) < 1) {
     return;
   }
 }
+
+$tableExists = mysqli_query($con, "SHOW TABLES LIKE 'highlights'");
+if (mysqli_num_rows($tableExists) < 1) {
+  $create = "CREATE TABLE highlights (
+    Row VARCHAR(128),
+    A VARCHAR(128),
+    B VARCHAR(128),
+    C VARCHAR(128)
+  )";
+
+  if (mysqli_query($con, $create) === FALSE) {
+    echo "Error code: 6";
+    return;
+  } else {
+    $query = mysqli_query($con, "INSERT INTO highlights (Row) VALUES ('1')");
+  }
+}
 ?>

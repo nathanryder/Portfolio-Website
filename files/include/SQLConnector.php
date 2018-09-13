@@ -1,5 +1,15 @@
 <?php
 
+function getProjectNameByID($con, $id) {
+  $query = mysqli_query($con, "SELECT Name FROM projects WHERE ID=" . $id);
+
+  if ($query === NULL) {
+    return NULL;
+  }
+
+  return mysqli_fetch_assoc($query)['Name'];
+}
+
 function createCategory($con, $name, $desc) {
   $query = mysqli_query($con, "INSERT INTO categories (Name, Description) VALUES ('$name', '$desc')");
 
@@ -66,6 +76,13 @@ function changePassword($con, $id, $pass) {
     return false;
 
   return true;
+}
+
+function getNextChar($c) {
+  if ($c === 'C')
+    return 'A';
+
+  return ++$c;
 }
 
 ?>

@@ -1,12 +1,11 @@
 <!--
 TODO
 
-Resume
-
-Edit project
-Highlights of portfolio section (on front page aswell)
+Highlights of portfolio section
 ESC listener
 Footer
+Resume
+Edit project
 
 -->
 
@@ -51,6 +50,9 @@ Footer
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#projects">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#highlights">Highlights</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#accounts">Accounts</a>
@@ -252,7 +254,6 @@ Footer
                   $content = $_POST['content'];
                   $error = false;
 
-var_dump((strlen($repo) < 1) && (strlen($file) < 1));
                   if (strlen($name) < 1)
                     $error = true;
                   else if (strlen($desc) < 1)
@@ -440,6 +441,9 @@ var_dump((strlen($repo) < 1) && (strlen($file) < 1));
                     echo "<td>" . $row['Year'] . "</td>";
                     echo "<td>
                             <span class='delete'>
+                              <a href='javascript:void(0)' onclick='showPopup(\"editProject\", " . $id . ")'>
+                                <img width='18px' src='../files/images/edit.png'>
+                              </a>
                               <a href='javascript:void(0)' onclick='deleteProject(" . $id . ", \"" . $uid . "\")'>
                                 <img width='18px' src='../files/images/delete.png'>
                               </a>
@@ -490,6 +494,159 @@ var_dump((strlen($repo) < 1) && (strlen($file) < 1));
                 </div>
               </form>
             </div>
+          </div>
+
+          <!-- EDIT PROJECT -->
+          <div id="editProject-popup" class="editProject-popup">
+            <div class="editProject-heading">
+              Edit Project (Not finished)
+              <a href="javascript:void(0)" onclick="closePopup('editProject')"><img width="16px" src="../files/images/close.svg"></a>
+            </div>
+            <br><br>
+
+            <form action="admin.php" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <input style="width:60%;" type="text" name="name" class="form-control" placeholder="Project Name">
+                <br>
+                <input style="width:60%;" type="text" name="desc" class="form-control" placeholder="Short description">
+                <br>
+                <input style="width:60%;" type="number" name="year" class="form-control" value="<?php echo date('Y'); ?>">
+                <br>
+                <select style="width:60%;" name="category" class="form-control">
+                  <?php
+                    $query = mysqli_query($con, "SELECT ID,Name FROM categories");
+                    while ($row = mysqli_fetch_assoc($query)) {
+                      echo '<option value="' . $row["ID"] . '">' . $row['Name'] . '</option>';
+                    }
+                  ?>
+                </select>
+                <br>
+                <input style="width:60%;" type="text" name="repo" class="form-control" placeholder="Link to repository">
+                <br>
+                Source: <input style="width:60%;" type="file" name="file" class="form-control">
+                <br>
+                Thumbnail: <input style="width:60%;" type="file" name="thumbnail" class="form-control">
+                <br>
+                Header: <input style="width:60%;" type="file" name="header" class="form-control">
+                <br>
+                <textarea style="width:60%;" class="form-control" name="content" rows="8" cols="80" placeholder="Project description"></textarea>
+
+                <br>
+                <input type="submit" name="editProject" value="Submit">
+              </div>
+            </form>
+          </div>
+
+          <!-- HIGHLIGHTS -->
+          <div role="tabpanel" class="tab-pane fade" id="highlights">
+            <!-- <table class="table table-striped table-hover"> -->
+            <table border="1" style="width: 100%">
+              <thead>
+                <tr style="text-align: center;">
+                  <?php
+                    $columns = mysqli_query($con, "SHOW COLUMNS FROM highlights");
+                    while ($name = mysqli_fetch_array($columns)) {
+                      echo "<br><th>" . $name['Field'] . "</th>";
+                    }
+                  ?>
+                </tr>
+              </thead>
+              <tbody>
+
+                <script type="text/javascript">
+
+                </script>
+
+                <?php
+                  $curRow = 0;
+                  $col = 'C';
+
+                  $mainQuery = mysqli_query($con, "SELECT * FROM highlights");
+                  $totalRows = mysqli_num_rows($mainQuery);
+                  while ($row = mysqli_fetch_assoc($mainQuery)) {
+
+                    $rowID = $row['Row'];
+                    echo "<tr style='line-height: 100px; text-align: center;'>";
+                      echo "<td>" . $rowID . "</td>";
+                      for ($count = 0; $count < 3; $count++) {
+                        $col = getNextChar($col);
+                        $id = $row[$col];
+                        $no = ($curRow+$count)+($curRow);
+
+                        if ($curRow > 0)
+                          $no++;
+
+                        if ($id === NULL || $id === "" || $id === "NULL") {
+                          $id = "None";
+                        } else {
+                          $id = getProjectNameByID($con, $id);
+                        }
+
+                      ?>
+
+                      <td>
+                        <a href="javascript:void(0)">
+                          <div id="controls-<?php echo $no; ?>">
+                            <?php
+                            if ($curRow == ($totalRows-1)) {
+                              echo '<div id="addHighlight" class="addHighlight tooltip">';
+                            } else {
+                              echo '<div onmouseout="hideControlsLower(' . $no . ', \'visible\');" onmouseover="hideControlsLower(' . $no . ', \'hidden\');" id="addHighlight" class="addHighlight tooltip">';
+                            }
+                            ?>
+                              <div class="tooltiptext">
+                                Select a category
+                                <select>
+                                  <?php
+
+                                  $i = 0;
+                                  $query = mysqli_query($con, "SELECT * FROM categories");
+                                  while ($cat = mysqli_fetch_assoc($query)) {
+                                    $name = $cat['Name'];
+                                    echo '<option onclick="updateProjectDropdown(\'projectDropdown-' . ($no) . '\', this)" value="' . $name . '">' . $name .'</option>';
+                                    $i++;
+                                  }
+
+                                  ?>
+                                </select>
+                                <br><br>
+                                Select a project
+                                <select id="projectDropdown-<?php echo $no; ?>">
+                                </select>
+                                <br><br>
+
+                                <button data-row="<?php echo $curRow; ?>" data-column="<?php echo $col; ?>" onclick="updateHighlightSlot(<?php echo $count; ?>, this)" class="btn-success" style="border: 0">Confirm</button>
+                              </div>
+                            </div>
+
+                            <div id="removeHighlight" class="removeHighlight tooltip">
+                              <div class="tooltiptext">
+                                Are you sure?<br><br>
+                                <button data-row="<?php echo $curRow; ?>" data-column="<?php echo $col; ?>" onclick="removeHighlight(<?php echo $count; ?>, this)" class="btn-success" style="border: 0">Yes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+
+                        <span id="projectName-<?php echo $count; ?>"><?php echo $id; ?></span>
+                      </td>
+
+                      <?php
+
+                      }
+
+                      echo "</tr>";
+                      $curRow++;
+                      $count++;
+                  }
+
+                ?>
+
+
+
+
+              </tbody>
+            </table>
           </div>
 
           <div role="tabpanel" class="tab-pane fade" id="accounts">
