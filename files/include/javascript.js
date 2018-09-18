@@ -1,3 +1,5 @@
+function addHighlightsRow() {}
+
 function hideControlsLower(id, value) {
 	document.getElementById("controls-" + (id + 3)).style.visibility = value;
 }

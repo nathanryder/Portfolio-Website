@@ -5,7 +5,6 @@ Highlights of portfolio section
 ESC listener
 Footer
 Resume
-Edit project
 
 -->
 
@@ -17,6 +16,7 @@ Edit project
     <title>Nathan Ryder | Admin</title>
     <link rel="stylesheet" href="../files/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../files/css/admin.css">
+    <link rel="stylesheet" href="../files/css/master.css">
     <script src="https://unpkg.com/sweetalert2@7.16.0/dist/sweetalert2.all.js"></script>
     <script src="../files/bootstrap/jquery.min.js"></script>
 
@@ -540,8 +540,10 @@ Edit project
           <!-- HIGHLIGHTS -->
           <div role="tabpanel" class="tab-pane fade" id="highlights">
             <!-- <table class="table table-striped table-hover"> -->
+
             <table border="1" style="width: 100%">
               <thead>
+
                 <tr style="text-align: center;">
                   <?php
                     $columns = mysqli_query($con, "SHOW COLUMNS FROM highlights");
@@ -552,10 +554,11 @@ Edit project
                 </tr>
               </thead>
               <tbody>
-
-                <script type="text/javascript">
-
-                </script>
+                <button onclick="addHighlightsRow()" style="float:right;" type="button" class="btn btn-default">
+                  <img height="16px" src="../files/images/add.png">
+                  Add Row
+                </button>
+                <br>
 
                 <?php
                   $curRow = 0;
@@ -725,6 +728,8 @@ Edit project
         </div>
       </div>
     </center>
+
+    <?php include("../files/include/footer.php"); ?>
 
     <script src="../files/include/javascript.js"></script>
     <script src="../files/bootstrap/jquery.min.js"></script>

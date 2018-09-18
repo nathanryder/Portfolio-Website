@@ -5,6 +5,7 @@
     <title>Nathan Ryder | Admin</title>
     <link rel="stylesheet" href="../files/bootstrap/bootstrap.min.css" >
     <link rel="stylesheet" href="../files/css/admin.css">
+    <link rel="stylesheet" href="../files/css/master.css">
   </head>
   <body style="background-color: #333">
     <?php
@@ -67,6 +68,8 @@
           </form>
       </div>
     </center>
+
+    <?php include("../files/include/footer.php"); ?>
 
     <script src="../files/bootstrap/jquery.min.js"></script>
     <script src="../files/bootstrap/popper.min.js"></script>

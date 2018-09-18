@@ -108,6 +108,7 @@
 
     </div>
 
+    <?php include("files/include/footer.php"); ?>
 
     <script src="files/bootstrap/jquery.min.js"></script>
     <script src="files/bootstrap/popper.min.js"></script>
