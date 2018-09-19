@@ -19,8 +19,11 @@
       <br>
       <h1 class="text">About Me</h1>
       <br>
-      <div class="container">
-        TEST
+      <div class="container" style="color: white;">
+        I am a student of Computer Science and IT with hands-on experience of MySQL database and Java,
+        JavaScript and PHP languages among others. I have had experience in Web Development, Server Administration,
+        Software Development and Market Research. I am currently in my second year of university at NUIG and am very passionate
+        about programming and new technologies.
       </div>
     </div>
 
