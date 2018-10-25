@@ -83,20 +83,20 @@
 	position: relative;
 	width: 100%;
 	overflow: auto;
-	background-color: #551a8b;
+	background-color: #66757f;
 }
 
 .portfolio {
 	position: relative;
 	width: 100%;
 	/* overflow: auto; */
-	background-color: #551a8b;
+	background-color: #66757f;
 }
 
 .contact {
 	width: 100%;
 	overflow: auto;
-	background-color: #551a8b;
+	background-color: #66757f;
 }
 
 .portfolio-block {

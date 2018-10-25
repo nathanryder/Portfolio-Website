@@ -1,9 +1,9 @@
 <?php
 
 define("host", "127.0.0.1");
-define("user", "root");
-define("password", "user");
-define("database", "WebsiteData");
+define("user", "portfolioWebsite");
+define("password", "vNMD#92se");
+define("database", "portfolioWebsite");
 
 $con = mysqli_connect(host, user, password, database) or die("Error code: 1");
 

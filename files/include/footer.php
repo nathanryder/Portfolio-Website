@@ -16,7 +16,7 @@
 
     <ul style="list-style: none; float: left;">
       <li class="heading">LINKS</li>
-      <li><a href="#">Resume</a></li>
+      <li><a href="/files/NathanRyder.pdf">Resume</a></li>
       <li><a href="mailto:nathanryder16@gmail.com">Email Me</a></li>
     </ul>
 

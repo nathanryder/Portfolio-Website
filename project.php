@@ -76,11 +76,11 @@
 
         <h5>Downloads</h5>
         <?php
-        if ($data["File"] !== NULL) {
-          echo '<h3><a class="download-links" href="#">Download</a></h3>';
+        if ($data["File"] !== "") {
+          echo '<h3><a class="download-links" target="_blank" href="#">Download</a></h3>';
         }
         if ($data["Repository"] !== "") {
-          echo '<h3><a class="download-links" href="#">Github</a></h3>';
+          echo '<h3><a class="download-links" target="_blank" href="' . $data["Repository"] . '">Github</a></h3>';
         }
         ?>
         <br><br><br>
