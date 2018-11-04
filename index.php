@@ -52,11 +52,12 @@
               <?php
             } else {
               $name = getProjectNameByID($con, $id);
+              $path = getThumbnailPathByID($con, $id);
               ?>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                   <a href="project.php?project=<?php echo $id; ?>">
                     <div data-content="<?php echo $name; ?>" class="portfolio-block">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/Comingsoon.png" style="background-color:white;" alt="" />
+                        <img src="<?php echo $path ?>" style="background-color:white;" alt="" />
                     </div>
                   </a>
                 </div>

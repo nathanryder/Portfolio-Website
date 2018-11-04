@@ -10,6 +10,17 @@ function getProjectNameByID($con, $id) {
   return mysqli_fetch_assoc($query)['Name'];
 }
 
+function getThumbnailPathByID($con, $id) {
+  $query = mysqli_query($con, "SELECT Folder,Thumbnail FROM projects WHERE ID=" . $id);
+
+  if ($query === NULL)
+    return NULL;
+
+  $data = mysqli_fetch_assoc($query);
+  $path = "uploads/" . $data['Folder'] . "/" . $data['Thumbnail'];
+  return $path;
+}
+
 function createCategory($con, $name, $desc) {
   $query = mysqli_query($con, "INSERT INTO categories (Name, Description) VALUES ('$name', '$desc')");
 
